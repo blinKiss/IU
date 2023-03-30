@@ -1,7 +1,7 @@
 import re
 import requests
 import pandas as pd
-import oracledb
+# import oracledb
 from bs4 import BeautifulSoup
 
 
@@ -94,7 +94,7 @@ for k in prod_kind:
     prod_kind[count2] = [k]
     count2 += 1
 
-# 데이터 프레임으로 변환 enumerate ?
+# 데이터 프레임으로 변환 enumerate ? 좋은듯? // 스티커 메모에 추가
 df = pd.DataFrame(columns=['prod_code', 'kind', 'name',
                   'image', 'price2', 'price3', 'content'])
 for i, pk in enumerate(prod_kind):
@@ -116,21 +116,5 @@ df[['prod_code', 'price2', 'price3']] = df[[
 # CSV로 저장
 print(df.to_csv('./IU/data/team2_crawl.csv', mode='w', index=None))
 
-# print(df)
-
 # DB에 저장
-conn = oracledb.connect(user='jsp4', password='123456',
-                        dsn='localhost:1521/doremiplay')
-curs = conn.cursor()
-
-
-# sql = '''
-# INSERT INTO PRODUCT (prod_code, name, kind, image, price2, price3, content) VALUES ()
-# '''
-# curs.execute(sql, ('800', '전진', 8))
-
-# print(curs.rowcount)
-
-# curs.close()
-# conn.commit()
-# conn.close()
+# csv 파일 오라클에 임포트 // 겹치는 상품이 있어서 prod_code 의 primary key 해제
