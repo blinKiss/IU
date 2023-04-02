@@ -59,14 +59,17 @@ for temp in txt_split:
         'ul.xans-element-.xans-product li:nth-child(1) strong.title.displaynone ~ span:nth-child(2)')]
     prod_content.append(content_temp)
 
+# 내용 부분 \r\n -> ' ' 로 수정 // 필요없어짐
+# for pc in range(len(prod_content)):
+#     prod_content[pc] = ([pr.replace('\r\n', ' ') for pr in prod_content[pc]])
+# for cnt3, pc in enumerate(prod_content):
+#     pc = [pr.replace('\r\n', ' ') for pr in pc]
+#     prod_content[cnt3] = pc
 
-for pc in range(len(prod_content)):
-    prod_content[pc] = ([pr.replace('\r\n', ' ') for pr in prod_content[pc]])
 
 # 할인가 부분에 빈 곳이 있어 판매가를 넣어줌 - ex)판매가 만원 할인 X > 판매가 만원 할인가 만원
-count = 0
 dc = re.compile(r'\d+원')
-for pp3 in prod_price3:
+for cnt, pp3 in enumerate(prod_price3):
 
     for j in range(0, 36, 3):
         if len(pp3) < 36:
@@ -78,23 +81,23 @@ for pp3 in prod_price3:
         # print(pp3[j:j+3])
 
     pp3 = [p.replace(',', '').replace('원', '') for p in pp3 if p != '']
-    prod_price3[count] = pp3
-    count += 1
+    prod_price3[cnt] = pp3
+
+# print(prod_price3)
 
 # 할인가 마지막 수정
 prod_price3 = [final[2::3] for final in prod_price3]
 
 # 종류를 '/' 문자열로 구분해서 병합
-count2 = 0
-for k in prod_kind:
+for cnt2, k in enumerate(prod_kind):
     if len(k) > 1:
         k = k[0] + '/' + k[1]
     else:
         k = k[0]
-    prod_kind[count2] = [k]
-    count2 += 1
+    prod_kind[cnt2] = [k]
 
-# 데이터 프레임으로 변환 enumerate ? 좋은듯? // 스티커 메모에 추가
+
+# 데이터 프레임으로 변환 enumerate ? 좋은듯? 위의 코드도 적용해봄 // 스티커 메모에 추가
 df = pd.DataFrame(columns=['prod_code', 'kind', 'name',
                   'image', 'price2', 'price3', 'content'])
 for i, pk in enumerate(prod_kind):
@@ -115,6 +118,7 @@ df[['prod_code', 'price2', 'price3']] = df[[
 
 # CSV로 저장
 print(df.to_csv('./IU/data/team2_crawl.csv', mode='w', index=None))
+
 
 # DB에 저장
 # csv 파일 오라클에 임포트 // 겹치는 상품이 있어서 prod_code 의 primary key 해제
