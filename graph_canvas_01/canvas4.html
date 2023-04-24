@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            background-color: #efefef;
+        }
+    </style>
+
+</head>
+<body>
+    <h2>캔버스 예제4</h2>
+    <canvas id="canvas4" width="500" height="350">
+        
+    </canvas>
+
+    <p>
+        <button>테스트 버튼</button>
+    </p>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <script>
+        canvas4 = document.getElementById("canvas4");
+        ctx4 = canvas4.getContext("2d");
+
+        // 이미지 로딩
+        imgtest = new Image();
+        imgtest.onload = function() {
+            // 이미지를 로딩 후 그려주시오
+            w = canvas4.width;
+            h = canvas4.height;
+            ctx4.drawImage(imgtest, 0, 0, w, h);
+        }
+        imgtest.src = "img/123.jpg"
+
+        // jquery 예제
+        $("button").click(function(){
+            alert('테스트 버튼입니다')
+        });
+    </script>
+</body>
+</html>
