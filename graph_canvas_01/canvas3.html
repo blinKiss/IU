@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            background-color: rgb(233, 200, 200);
+        }
+    </style>
+</head>
+<body>
+    <h3>캔버스 예제3</h3>
+
+    <canvas id="canvas3" width="400" height="300">
+
+    </canvas>
+
+    <script>
+        canvas3 = document.getElementById("canvas3");
+        ctx3 = canvas3.getContext("2d");
+
+        ctx3.beginPath();
+        ctx3.strokeStyle = "blue";
+        ctx3.arc(200, 175, 50, 0, Math.PI, false);
+        ctx3.stroke();
+
+        // 170, 50, 30, 0~2 파이
+
+        ctx3.beginPath();
+        ctx3.strokeStyle = "red";
+        ctx3.arc(170, 50, 30, 0, 2*Math.PI, false)
+        ctx3.stroke();
+
+        ctx3.beginPath();
+        ctx3.strokeStyle = "violet";
+        ctx3.arc(170, 50, 30, 0, Math.PI, false)
+        ctx3.stroke()
+    </script>
+    
+</body>
+</html>
