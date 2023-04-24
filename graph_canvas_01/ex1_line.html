@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>라인그래프 예제</h2>
+
+    <!-- 2단계 배치 -->
+    <canvas id="myChart1" width="700" height="400">
+
+    <p>
+        <button>검색</button>
+        <button>추가</button>
+    </p>
+    </canvas>
+
+    <!-- 1단계 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+    // 3단계 데이터 만들기 
+    var monthList = [202201, 202202, 202203, 202204, 202205, 202206];
+    var monthMem = [50, 55, 60, 70, 85, 90];
+
+    // 4단계 
+    ctx = document.getElementById("myChart1").getContext("2d");
+    
+    // 5단계
+     // canvas context, json 형식 데이터(키: 값)
+    myChart1 = new Chart(ctx, {
+        type : 'line', 
+        data: {
+            labels: monthList,
+            datasets: [{
+                label: '내 스팀 게임 수',
+                data: monthMem,
+                borderColor: 'rgba(255,0,0,1)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: false,
+            Plugin: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    </script>
+
+</body>
+</html>

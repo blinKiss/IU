@@ -10,6 +10,7 @@
             background-color: #efefef;
         }
     </style>
+
 </head>
 <body>
     <h2>캔버스 예제4</h2>
@@ -17,6 +18,10 @@
         
     </canvas>
 
+    <p>
+        <button>테스트 버튼</button>
+    </p>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
     <script>
         canvas4 = document.getElementById("canvas4");
         ctx4 = canvas4.getContext("2d");
@@ -30,6 +35,11 @@
             ctx4.drawImage(imgtest, 0, 0, w, h);
         }
         imgtest.src = "img/123.jpg"
+
+        // jquery 예제
+        $("button").click(function(){
+            alert('테스트 버튼입니다')
+        });
     </script>
 </body>
 </html>
