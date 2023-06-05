@@ -17,10 +17,11 @@
 numbers = input('세 개의 수를 공백을 두고 입력 : ')
 numbers_split = numbers.split(' ')
 
-for i in enumerate(numbers_split):
-    temp = 0
-    if( int(numbers_split[i]) > int(numbers_split[i+1]) ):
-        temp = int(numbers_split[i+1])
+for i, number in enumerate(numbers_split):
+    numbers_split[i] = int(number)
         
+result = sorted(numbers_split)[1]
+
+print(result)
     
     
