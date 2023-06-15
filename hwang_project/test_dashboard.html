@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        width: 100vw;
+        height: 100vh;
+        margin: 1%;
+        display: flex;
+        background-color: lightcyan;
+      }
+
+      .main-section {
+        width: 90%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 44% 54%;
+        grid-gap: 1%;
+        text-align: center;
+      }
+
+      .sidebar {
+        width: 14%;
+        height: 100%;
+        margin: 1%;
+      }
+
+      .graph-section {
+        width: 98%;
+        height: 48%;
+        margin: 1%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1%;
+      }
+
+      .text-section {
+        width: 98%;
+        height: 48%;
+        margin: 1%;
+        display: grid;
+        grid-template-columns: 68% 30%;
+        justify-content: space-between;
+        align-items: center;
+        grid-gap: 1%;
+        text-align: center;
+      }
+
+      .graph-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      .graph {
+        width: 100%;
+        height: 100%;
+        background-color: aqua;
+      }
+
+      .text-container {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      #analysis,
+      #chatbot {
+        width: 100%;
+        height: 40%;
+        background-color: aqua;
+      }
+
+      #recommendation {
+        width: 100%;
+        height: 100%;
+        background-color: aqua;
+      }
+
+      h2 {
+        color: blue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="main-section">
+        <div class="graph-section">
+          <div class="graph-container">
+            <h2>비용 종합</h2>
+            <canvas class="graph" id="total_cost"> </canvas>
+          </div>
+
+          <div class="graph-container">
+            <h2>고정 비용</h2>
+            <canvas class="graph" id="fixed_cost"> </canvas>
+          </div>
+
+          <div class="graph-container">
+            <h2>변동 비용</h2>
+            <canvas class="graph" id="variable_cost"> </canvas>
+          </div>
+        </div>
+
+        <div class="text-section">
+          <div class="text-container">
+            <h2>분석</h2>
+            <div class="text" id="analysis"></div>
+
+            <h2>챗봇</h2>
+            <div class="text" id="chatbot"></div>
+          </div>
+          <div class="text-container">
+            <h2>추천</h2>
+            <div class="text" id="recommendation"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="btn_1">
+          <div id="login_logout">
+            <a href="#">
+              로그인/<br />
+              로그아웃</a
+            >
+          </div>
+          <br />
+          <div id="share"><a href="#"> 친구공유</a></div>
+        </div>
+        <div class="btn_2">
+          <span>
+            <div id="output"><a href="../templates/">지출</a></div>
+            <div>
+              <a href="../com/human/controller/inputController.java">수입</a>
+            </div>
+          </span>
+        </div>
+        <div class="btn_3">
+          <div id="Q_A"><a href="#"> Q & A</a></div>
+          <div id="basket"><a href="#"> 장바구니</a></div>
+        </div>
+        <div class="btn_4">
+          <span>
+            <div id="memo"><a href="#"> 메모장 </a></div>
+            <div id="result">
+              <a href="#"> 분석<br />결과<br />보기</a>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
