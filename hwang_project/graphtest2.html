@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>그래프 예시</title>
+  <style>
+    /* 그래프 컨테이너의 스타일 */
+    .graph-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    /* 그래프의 스타일 */
+    .graph {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%; /* 캔버스의 가로 크기를 100%로 설정 */
+      height: 100%; /* 캔버스의 세로 크기를 100%로 설정 */
+    }
+  </style>
+
+  <!-- Chart.js 라이브러리 스크립트 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>헤더</h1>
+
+  <div class="graph-container">
+    <div class="graph-wrapper">
+      <canvas class="graph" id="graph1"></canvas>
+    </div>
+    <div class="graph-wrapper">
+      <canvas class="graph" id="graph2"></canvas>
+    </div>
+    <div class="graph-wrapper">
+      <canvas class="graph"></canvas>
+    </div>
+    <div class="graph-wrapper">
+      <canvas class="graph"></canvas>
+    </div>
+    <div class="graph-wrapper">
+      <canvas class="graph"></canvas>
+    </div>
+    <div class="graph-wrapper">
+      <canvas class="graph"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // 첫 번째 그래프 데이터
+    var graph1Data = {
+      labels: ['A', 'B', 'C', 'D', 'E'],
+      datasets: [{
+        label: '데이터셋 1',
+        data: [12, 19, 3, 5, 2],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+    };
+
+    // 두 번째 그래프 데이터
+    var graph2Data = {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '데이터셋 2',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    };
+
+    // 그래프 생성 함수
+    function createGraph(elementId, data) {
+      var canvas = document.getElementById(elementId);
+      var wrapper = canvas.parentNode;
+      canvas.width = wrapper.offsetWidth; // 캔버스의 가로 크기 설정
+      canvas.height = wrapper.offsetHeight; // 캔버스의 세로 크기 설정
+
+      var ctx = canvas.getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    // 그래프 생성
+    createGraph('graph1', graph1Data);
+    createGraph('graph2', graph2Data);
+  </script>
+</body>
+</html>

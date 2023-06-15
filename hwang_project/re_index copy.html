@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: lightgray;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .sidebar {
+        width: 10%;
+        background-color: lightblue;
+      }
+
+    .content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .top {
+      width: 28%;
+      height: 40%;
+      margin-bottom: 2%;
+      background-color: lightgreen;
+    }
+
+    .bottom {
+      width: 68%;
+      height: 40%;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .bottom-left {
+      width: 56%;
+      height: 40%;
+      margin-bottom: 2%;
+      background-color: lightyellow;
+    }
+
+    .bottom-right {
+      width: 30%;
+      height: 40%;
+      background-color: lightpink;
+      margin-left: 2%;
+    }
+
+ 
+*{  
+    text-decoration: none;
+    background-color: #cccccc;
+    font-family: "맑은 고딕";
+    margin:0;
+    
+}
+
+#total {
+    float: left;
+    width: 30%;
+    height: 300px;
+    text-align: center;
+    background-color: #fff;
+    margin-top: 0;
+    overflow: hidden; /* 그래프가 영역을 벗어나지 않도록 설정 */
+}
+
+#fc {
+    float: left;
+    width: 30%;
+    height: 300px;
+    text-align: center;
+    background-color: #fff;
+    margin-top: 0;
+    overflow: hidden; /* 그래프가 영역을 벗어나지 않도록 설정 */
+}
+
+#vc {
+    float: left;
+    width: 30%;
+    height: 300px;
+    text-align: center;
+    background-color: #fff;
+    margin-top: 0;
+    overflow: hidden; /* 그래프가 영역을 벗어나지 않도록 설정 */
+}
+
+#Analize{
+    float:left;
+    width: 57%;
+    height: 200px;
+    text-align: center;
+    background-color: #fff;
+}
+
+#pre{
+    float:right;
+    width:31%;
+    height:400px;
+    text-align: center;
+    background-color: #fff;
+    padding: 0;
+    margin-right:11%;
+    margin-top:-6.5%;
+
+}
+#cheatbot{
+    float:left;
+    width: 57%;
+    height: 200px;
+    text-align: center;
+    background-color: #fff;
+    margin-bottom: 0;
+
+}
+
+.sidebar{
+	border:red solid 0.1px;
+	float:right;
+	display:absolute;
+	width:5%;
+	height:50%;
+	margin-left:1%;
+	margin-top: 10%;
+	
+} 
+/*
+.graph {
+    background-color: rgb(209, 230, 231);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 10%; 캔버스의 가로 크기를 100%로 설정
+    height: 100%; 캔버스의 세로 크기를 100%로 설정
+  }
+*/
+  canvas {
+    background-color: rgba(200, 200, 200, 0.5);
+    border: 1px solid #ccc;
+    width:100%;
+    height:100%;
+  }
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Header</h1>
+  </header>
+
+</div>
+<div id="container">
+  <div class="content">
+    <div class="top">
+        <div id="total">
+            <h1>
+                <a href="#">전체</a>
+            </h1>
+            <canvas class="graph" id="total_cost"></canvas>
+        </div>
+        <div id="fc">
+            <h1>
+                <a href="#">고정비용</a>
+            </h1>
+            <canvas class="graph" id="fixed_cost"></canvas>
+        </div>
+        <div id="vc">
+            <h1>
+                <a href="#">변동비용</a>
+            </h1>
+            <canvas class="graph" id="variable_cost"></canvas>
+        </div>
+    </div>
+    <!-- <div class="second"> -->
+      <div class="bottom">
+        <div class="bottom-left" id="Analize"><h1><a href="#">분석</h1></a>
+        </div>
+        <div id="pre"><h1><a href="#">추천상품</h1></a>
+        </div>
+        <div id="cheatbot"><h1><a href="#">챗봇추천</h1></a>
+        </div>
+      </div>
+    <!-- </div> -->
+  </div>
+</div>
+
+<script>
+// 임시 데이터
+var fixed_cost = {
+labels: ['통신비', '적금', '월세', '보험료', '고정기타'],
+datasets: [{
+  label: '고정비용',
+  data: [77777, 555555, 444444, 333333, 55555],
+  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+  borderColor: 'rgba(255, 99, 132, 1)',
+  borderWidth: 1
+}]
+};
+
+var variable_cost = {
+labels: ['생필품', '취미', '건강보조제', '의류', '식비', '변동기타'],
+datasets: [{
+label: '변동비용',
+data: [65432, 150000, 89012, 121212, 321321, 234567],
+backgroundColor: 'rgba(54, 162, 235, 0.2)',
+borderColor: 'rgba(54, 162, 235, 1)',
+borderWidth: 1
+}]
+};
+
+
+var total_cost = {
+labels: fixed_cost.labels.concat(variable_cost.labels),
+datasets: [fixed_cost.datasets[0], variable_cost.datasets[0]]
+};
+
+function createGraph(elementId, data) {
+var canvas = document.getElementById(elementId);
+// var wrapper = canvas.parentNode;
+// canvas.width = wrapper.offsetWidth; // 캔버스의 가로 크기 설정
+// canvas.height = wrapper.offsetHeight; // 캔버스의 세로 크기 설정
+
+var ctx = canvas.getContext('2d');
+new Chart(ctx, {
+type: 'bar',
+data: data,
+options: {
+scales: {
+    y: {
+    beginAtZero: true
+    }
+}
+}
+});
+}
+
+// 그래프 생성
+createGraph('total_cost', total_cost);
+createGraph('fixed_cost', fixed_cost);
+createGraph('variable_cost', variable_cost);
+</script>
+</body>
+</body>
+</html>

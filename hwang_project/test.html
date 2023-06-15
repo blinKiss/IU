@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>아티스트 랭킹</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<style>
+.container {
+	padding-top: 140px; /* nav의 높이에 맞게 조절 */
+}
+</style>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/" style="font-size: 45px;">Music</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent"
+				style="font-size: 25px; padding: 30px;">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/">Home</a></li>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/music/music">Music</a></li>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/artist/artist">Artist</a></li>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/generation/womanGeneration">Generation</a>
+					</li>
+				</ul>
+				<th:block sec:authorize="isAuthenticated()">
+					<span sec:authentication="principal.username" class="text-white"></span>
+					<button type="button" onclick="location.href='/myPage/myPage'"
+						class="btn btn-primary" style="width: 160px">마이페이지</button>
+				</th:block>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<canvas id="myChart"></canvas>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col">
+				<div class="d-flex justify-content-between">
+					<div>
+						<p>남성</p>
+					</div>
+					<div class="flex-grow-1 text-center">
+						<p>여성</p>
+					</div>
+				</div>
+				<div class="d-flex justify-content-between">
+					<div>
+						<button id="defaultMaleBtn" class="btn btn-primary me-2">10대</button>
+						<button id="data2MaleBtn" class="btn btn-primary me-2">20대</button>
+						<button id="data3MaleBtn" class="btn btn-primary me-2">30대</button>
+						<button id="data4MaleBtn" class="btn btn-primary me-2">40대</button>
+						<button id="data5MaleBtn" class="btn btn-primary me-2">50대</button>
+					</div>
+					<div class="flex-grow-1 text-center">
+						<button id="defaultFemaleBtn" class="btn btn-primary me-2">10대</button>
+						<button id="data2FemaleBtn" class="btn btn-primary me-2">20대</button>
+						<button id="data3FemaleBtn" class="btn btn-primary me-2">30대</button>
+						<button id="data4FemaleBtn" class="btn btn-primary me-2">40대</button>
+						<button id="data5FemaleBtn" class="btn btn-primary me-2">50대</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script>
+		// 기본 데이터
+		var maleData = {
+			'포크' : 10,
+			'알앤비/어반' : 17,
+			'인디뮤직' : 12,
+			'댄스' : 11,
+			'락' : 13,
+			'발라드' : 22,
+			'랩/힙합' : 10,
+			'팝' : 3,
+			'J-팝' : 1,
+			'팝락' : 2,
+			'O.S.T' : 2
+		};
+
+		var femaleData = {
+			'댄스' : 46,
+			'랩/힙합' : 9,
+			'알앤비/어반' : 5,
+			'발라드' : 12,
+			'팝락' : 2,
+			'포크' : 2,
+			'J-팝' : 1,
+			'락' : 1,
+			'일렉트로니카' : 1,
+			'힙합' : 1,
+			'팝' : 1
+		};
+
+		var canvas = document.getElementById('myChart');
+		var ctx = canvas.getContext('2d');
+		var chart;
+
+		function drawChart(data) {
+			var entries = Object.entries(data);
+			entries.sort(function(a, b) {
+				return b[1] - a[1];
+			});
+			var genres = entries.map(function(entry) {
+				return entry[0];
+			});
+			var counts = entries.map(function(entry) {
+				return entry[1];
+			});
+
+			// 기존 차트가 있으면 제거
+			if (chart) {
+				chart.destroy();
+			}
+
+			// 새로운 차트 그리기
+			chart = new Chart(ctx, {
+				type : 'bar',
+				data : {
+					labels : genres,
+					datasets : [ {
+						label : '장르별',
+						data : counts,
+						backgroundColor : 'rgba(75, 192, 192, 0.6)',
+						borderColor : 'rgba(75, 192, 192, 1)',
+						borderWidth : 1
+					} ]
+				},
+				options : {
+					responsive : true,
+					scales : {
+						y : {
+							beginAtZero : true
+						}
+					}
+				}
+			});
+		}
+
+		drawChart(maleData);
+
+		// 버튼 클릭 이벤트 처리
+		var defaultMaleBtn = document.getElementById('defaultMaleBtn');
+		var data2MaleBtn = document.getElementById('data2MaleBtn');
+		var data3MaleBtn = document.getElementById('data3MaleBtn');
+		var data4MaleBtn = document.getElementById('data4MaleBtn');
+		var data5MaleBtn = document.getElementById('data5MaleBtn');
+
+		defaultMaleBtn.addEventListener('click', function() {
+			drawChart(maleData);
+		});
+
+		data2MaleBtn.addEventListener('click', function() {
+			var data2Male = {
+				'포크' : 6,
+				'알앤비/어반' : 10,
+				'인디뮤직' : 5,
+				'댄스' : 14,
+				'락' : 6,
+				'발라드' : 22,
+				'랩/힙합' : 17,
+				'팝' : 9,
+				'J-팝' : 1,
+				'팝락' : 1,
+				'알앤비' : 8,
+				'힙합' : 7,
+				'얼터너티브 락' : 2,
+				'인디' : 1,
+				'브릿 락' : 1,
+				'레게' : 1,
+				'일렉트로니카' : 2,
+				'클럽/댄스' : 2,
+				'갱스터 랩' : 1,
+				'뮤지컬' : 1
+			};
+			drawChart(data2Male);
+		});
+
+		data3MaleBtn.addEventListener('click', function() {
+			var data3Male = {
+				'발라드' : 77,
+				'알앤비/어반' : 80,
+				'랩/힙합' : 8,
+				'힙합' : 2,
+				'락' : 44,
+				'댄스' : 25,
+				'포크' : 10,
+				'인디뮤직' : 14,
+				'소울 ' : 8,
+				'알앤비' : 11,
+				'O.S.T' : 9,
+				'프로그레시브/아트 락' : 2,
+				'멜로딕 메탈' : 2,
+				'스피드 메탈' : 2,
+				'팝' : 6,
+				'일렉트로니카' : 3,
+				'게임' : 1,
+				'실내악' : 1
+			};
+			drawChart(data3Male);
+		});
+
+		data4MaleBtn.addEventListener('click', function() {
+			var data4Male = {
+				'팝' : 3,
+				'발라드' : 31,
+				'포크' : 5,
+				'알앤비/어반' : 16,
+				'인디뮤직' : 7,
+				'댄스' : 18,
+				'락' : 10,
+				'J-팝' : 1,
+				'랩/힙합' : 5,
+				'팝락' : 1,
+				'O.S.T' : 3,
+				'일렉트로니카' : 1
+			};
+			drawChart(data4Male);
+		});
+
+		data5MaleBtn.addEventListener('click', function() {
+			var data5Male = {
+				'팝' : 1,
+				'발라드' : 22,
+				'포크' : 19,
+				'락' : 11,
+				'트로트' : 7,
+				'댄스' : 6,
+				'인디음악' : 1,
+				'O.S.T' : 1
+			};
+			drawChart(data5Male);
+		});
+
+		var defaultFemaleBtn = document.getElementById('defaultFemaleBtn');
+		var data2FemaleBtn = document.getElementById('data2FemaleBtn');
+		var data3FemaleBtn = document.getElementById('data3FemaleBtn');
+		var data4FemaleBtn = document.getElementById('data4FemaleBtn');
+		var data5FemaleBtn = document.getElementById('data5FemaleBtn');
+
+		defaultFemaleBtn.addEventListener('click', function() {
+			drawChart(femaleData);
+		});
+
+		data2FemaleBtn.addEventListener('click', function() {
+			var data2Female = {
+
+				'댄스' : 31,
+				'발라드' : 16,
+				'팝' : 16,
+				'팝락' : 3,
+				'알엔비' : 5,
+				'소울' : 3,
+				'라틴' : 2,
+				'클럽/댄스' : 1,
+				'힙합' : 1,
+				'일렉트로니카' : 2,
+				'인디 팝' : 1,
+				'알엔비/어반' : 14,
+				'언터너티브 락' : 2,
+				'포크' : 4,
+				'랩/힙합' : 3,
+				'락' : 12,
+				'인디뮤직' : 7,
+				'O.S.T' : 5,
+				'뮤지컬' : 1,
+				'컨트리' : 2,
+				'트로트' : 1,
+				'애니메이션' : 1
+			};
+			drawChart(data2Female);
+		});
+
+		data3FemaleBtn.addEventListener('click', function() {
+			var data3Female = {
+				'댄스' : 21,
+				'랩/힙합' : 13,
+				'발라드' : 12,
+				'하우스' : 7,
+				'팝' : 8,
+				'테크노' : 4,
+				'일렉트로니카' : 2,
+				'팝락' : 1,
+				'클럽/댄스' : 4,
+				'알엔비/어반' : 6,
+				'락' : 10,
+				'동요' : 1,
+				'인디뮤직' : 7,
+				'일렉트로니카' : 1,
+				'O.S.T' : 2,
+				'팝뮤직' : 1,
+				'포크' : 1,
+				'힙합' : 2
+			};
+			drawChart(data3Female);
+		});
+
+		data4FemaleBtn.addEventListener('click', function() {
+			var data4Female = {
+				'랩/힙합' : 9,
+				'댄스' : 14,
+				'발라드' : 9,
+				'팝락' : 1,
+				'팝' : 4,
+				'알엔비' : 2,
+				'포크' : 1,
+				'에니메이션' : 1,
+				'인디뮤직' : 1,
+				'락' : 4,
+				'O.S.T' : 1,
+				'J-팝' : 1,
+				'알엔비/어반' : 1,
+				'일렉트로니카' : 1
+			};
+			drawChart(data4Female);
+		});
+
+		data5FemaleBtn.addEventListener('click', function() {
+			var data5Female = {
+				'팝' : 1,
+				'발라드' : 26,
+				'포크' : 22,
+				'락' : 7,
+				'트로트' : 11,
+				'댄스' : 5,
+				'O.S.T' : 2
+			};
+			drawChart(data5Female);
+		});
+	</script>
+
+</body>
+</html>

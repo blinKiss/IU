@@ -1,0 +1,96 @@
+@charset "utf-8";
+
+ 
+*{  
+    text-decoration: none;
+    background-color: #cccccc;
+    font-family: "맑은 고딕";
+    margin:0;
+    
+}
+
+#total {
+    float: left;
+    width: 30%;
+    height: 300px;
+    text-align: center;
+    background-color: #fff;
+    margin-top: 0;
+    overflow: hidden; /* 그래프가 영역을 벗어나지 않도록 설정 */
+}
+
+#fc {
+    float: left;
+    width: 30%;
+    height: 300px;
+    text-align: center;
+    background-color: #fff;
+    margin-top: 0;
+    overflow: hidden; /* 그래프가 영역을 벗어나지 않도록 설정 */
+}
+
+#vc {
+    float: left;
+    width: 30%;
+    height: 300px;
+    text-align: center;
+    background-color: #fff;
+    margin-top: 0;
+    overflow: hidden; /* 그래프가 영역을 벗어나지 않도록 설정 */
+}
+
+#Analize{
+    float:left;
+    width: 57%;
+    height: 200px;
+    text-align: center;
+    background-color: #fff;
+}
+
+#pre{
+    float:right;
+    width:31%;
+    height:400px;
+    text-align: center;
+    background-color: #fff;
+    padding: 0;
+    margin-right:11%;
+    margin-top:-6.5%;
+
+}
+#cheatbot{
+    float:left;
+    width: 57%;
+    height: 200px;
+    text-align: center;
+    background-color: #fff;
+    margin-bottom: 0;
+
+}
+
+.sidebar{
+	border:red solid 0.1px;
+	float:right;
+	display:absolute;
+	width:5%;
+	height:50%;
+	margin-left:1%;
+	margin-top: 10%;
+	
+} 
+/*
+.graph {
+    background-color: rgb(209, 230, 231);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 10%; 캔버스의 가로 크기를 100%로 설정
+    height: 100%; 캔버스의 세로 크기를 100%로 설정
+  }
+*/
+  canvas {
+    background-color: rgba(200, 200, 200, 0.5);
+    border: 1px solid #ccc;
+    width:100%;
+    height:100%;
+  }
+

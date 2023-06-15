@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Google Charts -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <title>Graph Comparison</title>
+</head>
+<body>
+  <!-- Chart.js -->
+  <h3>Chart.js</h3>
+  <canvas id="chartjs-container"></canvas>
+
+  <!-- Google Charts -->
+  <h3>Google Charts</h3>
+  <div id="googlecharts-container"></div>
+
+  <script>
+    // Sample data
+    let data = [
+      { label: '통신비', value: 10 },
+      { label: '적금', value: 20 },
+      { label: '월세', value: 15 },
+      { label: 'D', value: 25 },
+      { label: 'E', value: 30 }
+    ];
+
+    // Chart.js
+    let ctx = document.getElementById('chartjs-container').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.map(item => item.label),
+        datasets: [{
+          label: 'Data',
+          data: data.map(item => item.value),
+          borderColor: 'rgb(75, 192, 192)',
+          fill: false
+        }]
+      }
+    });
+
+    // Google Charts
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawGoogleChart);
+
+    function drawGoogleChart() {
+      let dataTable = new google.visualization.DataTable();
+      dataTable.addColumn('string', 'Label');
+      dataTable.addColumn('number', 'Value');
+      dataTable.addRows(data.map(item => [item.label, item.value]));
+
+      let options = {
+        title: 'Data',
+        curveType: 'function',
+        legend: { position: 'bottom' }
+      };
+
+      let chart = new google.visualization.LineChart(document.getElementById('googlecharts-container'));
+      chart.draw(dataTable, options);
+    }
+  </script>
+</body>
+</html>

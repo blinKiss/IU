@@ -1,0 +1,155 @@
+@charset "utf-8";
+
+*{  
+   font-size: 25px;
+
+}
+
+.Expense_date ,
+.Expense_amount ,
+.Expense_type ,
+.Expense_method ,
+.Expense_notes
+{
+    float: left;
+    width: 60%;
+    height: 15%;
+    background-color: black;
+    color:white;
+    margin-top: 20px;
+    margin-right: 0px;
+
+} 
+
+.Expense_date>a ,
+.Expense_amount>a ,
+.Expense_type>.category>a ,
+.Expense_method>a ,
+.Expense_notes>a
+{
+    color:white;
+    text-decoration: none;
+}
+
+.regular,
+.add_revise
+{
+    border-left: solid white 4px;
+    float: left;
+    text-align: center;
+    background-color: skyblue;
+    width: 30%;
+    height: 15%;
+    margin-top: 20px;
+    
+
+}
+
+a{
+     text-decoration: none;
+    
+}
+
+#input_date{
+    float:right;
+    background-color: grey;
+    color:white;
+    width: 40%
+}
+
+#amount{
+    float: right;
+    width: 40%;
+    height: 15%;
+}
+
+.button>a{
+    float:right;
+    height: 15%;
+    display: block;
+    background-color: white;
+    width: 41%;
+    border: solid black 1px;
+    color:black;
+    text-align: center;
+}
+
+option{
+    text-align: center;
+}
+
+.Expense_type>ul>li{
+    float:right;
+    list-style: none;
+}
+
+.Expense_type>.category{
+    float:left;
+}
+
+.submenu_1{
+    float: right;
+    position: absolute;
+    width: 24.3%;
+    margin-top: 0.03%;
+    padding-bottom:0.2%;
+    margin-left:27.5%;
+    color:black;
+    background-color: white;
+    tab-size: 10px;
+}
+
+.btn{
+    float:right;    
+    margin-right:0;
+    padding:0;
+    margin-left: 90%;
+    
+}
+
+.submenu_1>li>a{
+    float:left;
+    text-align: left;
+    font-size: 20px;
+}
+
+.submenu_1>li>a:hover{
+    background-color: #30a3f3;
+}
+
+
+.Expense_method>a{
+     float:right;
+     height: 15%;
+     display: flex;
+     background-color: white;
+     width: 41%;
+     border: solid black 1px;
+     color:black;
+     text-align: center;
+    
+
+}
+
+.Expense_notes>a{
+     float:right;
+     height: 15%;
+     display: block;
+     background-color: white;
+     width: 41%;
+     border: solid black 1px;
+     color:black;
+     text-align: center;
+}   
+
+#notes{
+    color:white;
+    float: right;
+    position: absolute;
+    width: 22%;
+    margin-top: 2.5%;
+    margin-left:35%;
+    background-color: green;
+    display: none;
+}
+
