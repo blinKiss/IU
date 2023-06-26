@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>달력</title>
+  </head>
+  <body>
+    <!-- monthly calendar control placeholder -->
+    <div id="dp"></div>
+    <!-- DayPilot library -->
+    <script src="js/daypilot/daypilot-all.min.js"></script>
+    <!-- calendar initialization and config -->
+    <script>
+      const calendar = new DayPilot.Month("dp");
+      calendar.init();
+    </script>
+  </body>
+</html>
