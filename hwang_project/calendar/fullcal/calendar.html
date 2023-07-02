@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>달력</title>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        #calendar {
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+    </style>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+
+</head>
+
+<body>
+    <div id='calendar'></div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    // 연간은 dayGridYear
+                    start: 'dayGridMonth timeGridWeek timeGridDay',
+                    center: 'title',
+                    // end: 'attendance prevYear,prev,today,next,nextYear'
+                    // end: 'attendance prev,today,next'
+                    end: 'attendance prev,today,next'
+                },
+                //footerToolbar: {
+                //    start: '',
+                //    center: '',
+                //    end: 'modify'
+                //},
+                locale: 'ko',
+                customButtons: {
+                    //toMain: {
+                    //    text: '메인으로',
+                    //    click: function () {
+                    //        window.location.href = 'http://127.0.0.1:5502/IU/hwang_project/calendar/fullcal/index.html';
+                    //    }
+                    //},
+                    attendance: {
+                        text: '출석하기',
+                        id: 'check',
+                        click: function () {
+                            var button = this;
+
+                            // Ajax 요청을 보내어 출석 정보 저장
+                            $.ajax({
+                                url: '/users/attendances',
+                                type: 'POST',
+                                data: { userId: userId },
+                                dataType: 'text',
+                                success: function (date) {
+                                    // 출석 정보 저장 성공 시 버튼 비활성화 및 텍스트 변경
+                                    button.disabled = true;
+                                    button.setText('출석완료');
+
+                                    // 달력에 출석 정보 표시 (예시로 이벤트를 추가하는 방식으로 구현)
+                                    calendar.addEvent({
+                                        title: '출석완료',
+                                        start: date, // 서버에서 반환한 출석 일자
+                                        editable: false // 수정 불가능한 일정으로 설정
+                                    });
+                                },
+                                error: function () {
+                                    // 출석 정보 저장 실패 시 처리
+                                    console.error('출석 정보 저장에 실패했습니다.');
+                                }
+                            });
+                        }
+                    },
+                },
+
+                eventSources: [
+                    {
+                        // ajax 통신으로 달력 정보 가져오기
+                        // GET "/users/attendances" -> {dateList:[ date: "2016-03-21", ... ]}
+                        color: 'cornflowerblue',
+                        textColor: 'white'
+                    }
+                ],
+                buttonText: {
+                    // dayGridYear: '연간',
+                    dayGridMonth: '월간',
+                    timeGridWeek: '주간',
+                    timeGridDay: '일간',
+                    today: '오늘'
+                },
+
+
+                // 클릭해서 일정 추가
+                selectable: true,
+                select: function (info) {
+                    var title = prompt('일정을 입력하세요');
+
+                    if (title) {
+                        calendar.addEvent({
+                            title: title,
+                            start: info.startStr,
+                            end: info.endStr,
+                            //color: 'lightblue'
+                            backgroundColor: "cornflowerblue",
+                            textColor: "white"
+                        });
+                    }
+                    calendar.unselect();
+                },
+                // 일정 수정 이벤트 처리
+                eventClick: function (info) {
+                    var choice = prompt('수정은 1 삭제는 2 를 입력하세요');
+                    if (choice === '1') {
+                        var newTitle = prompt('일정을 수정하세요', info.event.title);
+                        if (newTitle) {
+                            info.event.setProp('title', newTitle);
+                            updateEvent(info.event);
+                        }
+                    } else if (choice === '2') {
+                        if (confirm('정말 삭제하시겠습니까?')) {
+                            info.event.remove();
+                        }
+                        // 취소 누르면 null이 반환됨
+                    } else if (choice === null) {
+
+                    } else {
+                        alert('잘못된 숫자입니다')
+                    }
+
+                },
+                editable: true,
+                dayMaxEvents: true
+
+            });
+
+            calendar.render();
+
+
+        });
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,123 +1,123 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>toast ui</title>
-    <!-- cdn 불러오기 -->
-    <link
-      rel="stylesheet"
-      href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css"
-    />
-    <script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
-  </head>
-  <body>
-    <h1>달력이야</h1>
-    <!-- 높이 최소 600px 이상 권장 -->
-    <div id="calendar" style="height: 800px"></div>
-    <script>
-      const Calendar = tui.Calendar;
 
-      const container = document.getElementById("calendar");
-      const options = {
-        // defaultView: month week day중 하나로 지정
-        defaultView: "week",
-        usageStatistics: false,
-        timezone: {
-          zones: [
-            {
-              timezoneName: "Asia/Seoul",
-              displayLabel: "Seoul",
-            },
-            {
-              timezoneName: "Europe/London",
-              displayLabel: "London",
-            },
-          ],
-        },
-        calendars: [
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toast ui</title>
+  <!-- cdn 불러오기 -->
+  <link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
+  <script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
+</head>
+
+<body>
+  <h1>달력이야</h1>
+  <!-- 높이 최소 600px 이상 권장 -->
+  <div id="calendar" style="height: 800px"></div>
+  <script>
+    const Calendar = tui.Calendar;
+
+    const container = document.getElementById("calendar");
+    const options = {
+      // defaultView: month week day중 하나로 지정
+      defaultView: "week",
+      usageStatistics: false,
+      timezone: {
+        zones: [
           {
-            id: "cal1",
-            name: "개인",
-            backgroundColor: "#03bd9e",
+            timezoneName: "Asia/Seoul",
+            displayLabel: "Seoul",
           },
           {
-            id: "cal2",
-            name: "직장",
-            backgroundColor: "#00a9ff",
+            timezoneName: "Europe/London",
+            displayLabel: "London",
           },
         ],
-      };
-
-      const calendar = new Calendar(container, options);
-
-      // 일정 생성하기
-      calendar.createEvents([
+      },
+      calendars: [
         {
-          id: "event1",
-          calendarId: "cal2",
-          title: "주간 회의",
-          start: "2022-06-07T09:00:00",
-          end: "2022-06-07T10:00:00",
+          id: "cal1",
+          name: "개인",
+          backgroundColor: "#03bd9e",
         },
         {
-          id: "event2",
-          calendarId: "cal1",
-          title: "점심 약속",
-          start: "2022-06-08T12:00:00",
-          end: "2022-06-08T13:00:00",
+          id: "cal2",
+          name: "직장",
+          backgroundColor: "#00a9ff",
         },
-        {
-          id: "event3",
-          calendarId: "cal2",
-          title: "휴가",
-          start: "2022-06-08",
-          end: "2022-06-10",
-          isAllday: true,
-          category: "allday",
+      ],
+    };
+
+    const calendar = new Calendar(container, options);
+
+    // 일정 생성하기
+    calendar.createEvents([
+      {
+        id: "event1",
+        calendarId: "cal2",
+        title: "주간 회의",
+        start: "2022-06-07T09:00:00",
+        end: "2022-06-07T10:00:00",
+      },
+      {
+        id: "event2",
+        calendarId: "cal1",
+        title: "점심 약속",
+        start: "2022-06-08T12:00:00",
+        end: "2022-06-08T13:00:00",
+      },
+      {
+        id: "event3",
+        calendarId: "cal2",
+        title: "휴가",
+        start: "2022-06-08",
+        end: "2022-06-10",
+        isAllday: true,
+        category: "allday",
+      },
+    ]);
+
+    calendar.setOptions({
+      useFormPopup: true,
+      useDetailPopup: true,
+    });
+
+    calendar.setTheme({
+      common: {
+        gridSelection: {
+          backgroundColor: "rgba(81, 230, 92, 0.05)",
+          border: "1px dotted #515ce6",
         },
-      ]);
+      },
+    });
 
-      calendar.setOptions({
-        useFormPopup: true,
-        useDetailPopup: true,
-      });
+    function formatTime(time) {
+      const hours = `${time.getHours()}`.padStart(2, "0");
+      const minutes = `${time.getMinutes()}`.padStart(2, "0");
 
-      calendar.setTheme({
-        common: {
-          gridSelection: {
-            backgroundColor: "rgba(81, 230, 92, 0.05)",
-            border: "1px dotted #515ce6",
-          },
+      return `${hours}:${minutes}`;
+    }
+
+    calendar.setOptions({
+      template: {
+        time(event) {
+          const { start, end, title } = event;
+
+          return `<span style="color: white;">${formatTime(
+            start
+          )}~${formatTime(end)} ${title}</span>`;
         },
-      });
-
-      function formatTime(time) {
-        const hours = `${time.getHours()}`.padStart(2, "0");
-        const minutes = `${time.getMinutes()}`.padStart(2, "0");
-
-        return `${hours}:${minutes}`;
-      }
-
-      calendar.setOptions({
-        template: {
-          time(event) {
-            const { start, end, title } = event;
-
-            return `<span style="color: white;">${formatTime(
-              start
-            )}~${formatTime(end)} ${title}</span>`;
-          },
-          allday(event) {
-            return `<span style="color: gray;">${event.title}</span>`;
-          },
+        allday(event) {
+          return `<span style="color: gray;">${event.title}</span>`;
         },
-      });
+      },
+    });
 
-      calendar.on("clickEvent", ({ event }) => {
-        const el = document.getElementById("clicked-event");
-        el.innerText = event.title;
-      });
-    </script>
-  </body>
+    calendar.on("clickEvent", ({ event }) => {
+      const el = document.getElementById("clicked-event");
+      el.innerText = event.title;
+    });
+  </script>
+</body>
+
 </html>
